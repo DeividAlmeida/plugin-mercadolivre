@@ -130,26 +130,17 @@ curl_setopt_array($curl, array(
   CURLOPT_CUSTOMREQUEST => 'POST',
   CURLOPT_POSTFIELDS =>'{
     "title": "'.post('nome').'",
-    "category_id": "MLB3530",
+    "category_id": "'.$_POST['categoria_ml'].'",
     "price": '.post('preco').',
     "currency_id": "BRL",
-    "available_quantity": 10,
+    "available_quantity": 1,
     "buying_mode": "buy_it_now",
     "condition": "new",
     "listing_type_id": "gold_special",
     "pictures": [
         '.$picsource.'
-    ],
-    "attributes": [
-        {
-            "id": "BRAND",
-            "value_name": "Marca del producto"
-        },
-        {
-            "id": "EAN",
-            "value_name": "7898095297749"
-        }
-    ]
+    ],'.$_POST['atributos_ml'].'
+    
 }',
   CURLOPT_HTTPHEADER => array(
     'Authorization: Bearer '.$MLtoken['token'],
@@ -163,8 +154,8 @@ $response = curl_exec($curl);
 curl_close($curl);
   try{
     atualizarMatrizProduto($id_produto);
-    var_dump($response);
-    #Redireciona('?ListarProduto&sucesso');
+    #var_dump($response);
+    Redireciona('?ListarProduto&sucesso');
   } catch (\Exception $e) {
     Redireciona('?ListarProduto&erro');
   }

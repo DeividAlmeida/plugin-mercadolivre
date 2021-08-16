@@ -7,7 +7,8 @@
 <?php $atributos = DBRead('ecommerce_atributos','*'); ?>
 <?php $produtos = DBRead('ecommerce','*'); ?>
 <?php $ML = DBRead('ecommerce_mercadolivre','*')[0]; ?>
-<form method="post" action="?AddProduto" enctype="multipart/form-data">
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<form method="post" action="?AddProduto" enctype="multipart/form-data" id="main">
   <div class="card">
     <div class="card-header  white">
       <strong>Cadastrar Produto</strong>
@@ -61,7 +62,7 @@
           <!-- `marcas` -->
           <div class="form-group">
             <label>Marca: </label>
-            <select class="form-control produto-categorias" name="marcas[]" multiple="multiple">
+            <select class="form-control produto-categorias" name="marcas[]" multiple="multiple" id="marca">
               <?php foreach($marcas as $marcas){ ?>
                 <option value="<?php echo $marcas['id']; ?>"><?php echo $marcas['nome']; ?></option>
               <?php } ?>
@@ -105,29 +106,150 @@
           <!-- `estoque` int(11) DEFAULT NULL-->
           <div class="form-group">
             <label>Publicar no Mercado Livre:</label>            
-              <select class="form-control custom-select" onchange="sugestao(this)">
-              <option value="0" selected>Não</option>
-              <option value="1">Sim</option>
+              <select class="form-control custom-select" v-model="ml">
+              <option :value=false selected>Não</option>
+              <option :value=true>Sim</option>
             </select>            
-          </div> 
-           <div class="form-group ">
-            <label>Categoria ML:</label>            
-              <input class="form-control" id="categoriaml" disabled codigo="">            
           </div>
-          <script>
-              function sugestao(i){
-                        let nome = document.getElementsByName('nome')[0].value
-                        let cod = document.getElements 
-                    if(i.value == 1){
-                        fetch('ecommerce/plugins/mercadolivre/mercadolivre/apis/sugestao.php?nome='+nome)
-                        .then(a=>a.json())
-                        .then(b=>{
-                            console.log(b)
-                        })
-                    }
-                }
-          </script>
         </div>        
+    </div>
+    <div class="row" v-if="ml">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Categoria:</label>
+                <select name="categoria_ml" class="form-control custom-select" v-model="categoria" required>
+                    <option value="MLB1055">Celulares e Smartphones</option>
+                </select> 
+            </div>
+        </div>
+        
+        <!-- Celulares e Smartphones-->
+        
+        <div class="col-md-3" v-if="categoria=='MLB1055'">
+            <div class="form-group">
+                <label>Modelo:</label>
+                <input  onchange="atributo()" class="form-control" name="MODEL" required>            
+            </div>
+        </div>
+        <div class="col-md-3" v-if="categoria=='MLB1055'">
+            <div class="form-group">
+                <label>Dual Chip:</label>
+                 <select  onchange="atributo()" class="form-control custom-select" name="IS_DUAL_SIM" required>
+                    <option value="Sim">Sim</option>
+                    <option value="Não">Não</option>
+                </select> 
+            </div>
+        </div>
+        <div class="col-md-3" v-if="categoria=='MLB1055'">
+            <div class="form-group">
+                <label>Operadora:</label>
+                 <select  onchange="atributo()" class="form-control custom-select" name="CARRIER" required>
+                    <option value="Desbloqueado">Desbloqueado</option>
+                    <option value="Claro">Claro</option>
+                    <option value="Nextel">Nextel</option>
+                    <option value="TIM">TIM</option>
+                    <option value="Oi">Oi</option>
+                    <option value="Vivo">Vivo</option>
+                </select> 
+            </div>
+        </div>
+        <div class="col-md-3" v-if="categoria=='MLB1055'">
+            <div class="form-group">
+                <label>Cor:</label>
+                 <select  onchange="atributo()" class="form-control custom-select" name="COLOR" required>
+                    <option value="Verde-escuro">Verde-escuro</option>
+                    <option value="Azul-turquesa">Azul-turquesa</option>
+                    <option value="Índigo">Índigo</option>
+                    <option value="Lavanda">Lavanda</option>
+                    <option value="Rosa-chiclete">Rosa-chiclete</option>
+                    <option value="Bordô">Bordô</option>
+                    <option value="Nude">Nude</option>
+                    <option value="Branco">Branco</option>
+                    <option value="Azul-marinho">Azul-marinho</option>
+                    <option value="Creme">Creme</option>
+                    <option value="Rosa-pálido">Rosa-pálido</option>
+                    <option value="Palha">Palha</option>
+                    <option value="Laranja-claro">Laranja-claro</option>
+                    <option value="Azul">Azul</option>
+                    <option value="Rosa-claro">Rosa-claro</option>
+                    <option value="Coral-claro">Coral-claro</option>
+                    <option value="Coral">Coral</option>
+                    <option value="Azul-celeste">Azul-celeste</option>
+                    <option value="Azul-aço">Azul-aço</option>
+                    <option value="Cáqui">Cáqui</option>
+                    <option value="Bege">Bege</option>
+                    <option value="Vermelho">Vermelho</option>
+                    <option value="Terracota">Terracota</option>
+                    <option value="Cinza">Cinza</option>
+                    <option value="Violeta">Violeta</option>
+                    <option value="Marrom-claro">Marrom-claro</option>
+                    <option value="Preto">Preto</option>
+                    <option value="Marrom-escuro">Marrom-escuro</option>
+                    <option value="Prateado">Prateado</option>
+                    <option value="Violeta-escuro">Violeta-escuro</option>
+                    <option value="Rosa">Rosa</option>
+                    <option value="Amarelo">Amarelo</option>
+                    <option value="Dourado-escuro">Dourado-escuro</option>
+                    <option value="Verde-claro">Verde-claro</option>
+                    <option value="Laranja-escuro">Laranja-escuro</option>
+                    <option value="Azul-petróleo">Azul-petróleo</option>
+                    <option value="Cinza-escuro">Cinza-escuro</option>
+                    <option value="Chocolate">Chocolate</option>
+                    <option value="Verde">Verde</option>
+                    <option value="Dourado">Dourado</option>
+                    <option value="Laranja">Laranja</option>
+                    <option value="Azul-escuro">Azul-escuro</option>
+                    <option value="Ocre">Ocre</option>
+                    <option value="Verde-musgo">Verde-musgo</option>
+                    <option value="Marrom">Marrom</option>
+                    <option value="Lilás">Lilás</option>
+                    <option value="Fúcsia">Fúcsia</option>
+                    <option value="Ciano">Ciano</option>
+                    <option value="Azul-claro">Azul-claro</option>
+                </select> 
+            </div>
+        </div>
+        <div class="col-md-3" v-if="categoria=='MLB1055'">
+            <div class="form-group">
+              <label>Memória interna:</label>
+                <div class=" input-group" >
+                  <input onchange="atributo()" class="form-control" type="number" min="1" v-model="rom" required>
+                  <input name="INTERNAL_MEMORY" type="hidden" :value="rom+' '+un_rom">
+                  <div class="input-group-prepend">
+                      <select onchange="atributo()" class="custom-select" v-model="un_rom" required>
+                        <option value="kB">KB</option>
+                        <option value="MB">MB</option>
+                        <option value="GB">GB</option>
+                        <option value="TB">TB</option>
+                      </select>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3" v-if="categoria=='MLB1055'">
+            <div class="form-group">
+              <label>Memória RAM:</label>
+                <div class=" input-group" >
+                  <input onchange="atributo()" class="form-control" type="number" min="1" v-model="ram" required>
+                  <input name="RAM" type="hidden" :value="ram+' '+un_ram">
+                  <div class="input-group-prepend">
+                      <select onchange="atributo()" class="custom-select" v-model="un_ram" required>
+                        <option value="kB">KB</option>
+                        <option value="MB">MB</option>
+                        <option value="GB">GB</option>
+                        <option value="TB">TB</option>
+                      </select>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3" v-if="categoria=='MLB1055'">
+            <div class="form-group">
+                <label>Código universal de produto (GTIN):</label>
+                <input onchange="atributo()" class="form-control" name="GTIN" required>            
+            </div>
+        </div>
+        <input name="atributos_ml" type="hidden">
     </div>
     <div class="row">
         <div class="col-md-3" >
@@ -240,3 +362,61 @@
   </div>
 </div>
 <script type="text/javascript"> function showDetails(z){$("#no-b").load('<?php echo ConfigPainel('base_url'); ?>/ecommerce/produtos/processa_attributos.php?radar=0');}</script> 
+<script>
+    const vue = new Vue({
+        el: '#main',
+        data:{
+            ml:false,
+            categoria:null,
+            un_rom:null,
+            un_ram:null,
+            rom:null,
+            ram:null,
+        }
+    })
+    function atributo(){
+        var categoria = document.getElementsByName('categoria_ml')[0].value
+        var e = document.getElementById("marca");
+        var strUser = e.options[e.selectedIndex].text;
+        var att
+        switch(categoria){
+            case 'MLB1055':
+               att = '"attributes": ['+
+                        '{'+
+                           '"id": "MODEL",'+
+                            '"value_name": "'+String(document.getElementsByName('MODEL')[0].value)+'"'+
+                        '},'+
+                        '{'+
+                           ' "id": "IS_DUAL_SIM",'+
+                           '"value_name": "'+(document.getElementsByName('IS_DUAL_SIM')[0].value)+'"'+
+                       ' },'+
+                       ' {'+
+                            '"id": "COLOR",'+
+                           '"value_name": "'+String(document.getElementsByName('COLOR')[0].value)+'"'+
+                        '},'+
+                       ' {'+
+                           '"id": "INTERNAL_MEMORY",'+
+                            '"value_name": "'+String(document.getElementsByName('INTERNAL_MEMORY')[0].value)+'"'+
+                      ' },'+
+                        '{'+
+                            '"id": "BRAND",'+
+                            '"value_name": "'+strUser+'"'+
+                       ' },'+
+                        '{'+
+                            '"id": "RAM",'+
+                            '"value_name": "'+String(document.getElementsByName('RAM')[0].value)+'"'+
+                        '},'+
+                        '{'+
+                            '"id": "CARRIER",'+
+                            '"value_name": "'+String(document.getElementsByName('CARRIER')[0].value)+'"'+
+                        '},'+
+                        '{'+
+                            '"id": "GTIN",'+
+                            '"value_name": "'+String(document.getElementsByName('GTIN')[0].value)+'"'+
+                        '}'+
+                ']'
+               document.getElementsByName('atributos_ml')[0].value = att
+            break;
+        }
+    }
+</script>
