@@ -62,7 +62,7 @@
           <!-- `marcas` -->
           <div class="form-group">
             <label>Marca: </label>
-            <select class="form-control produto-categorias" name="marcas[]" multiple="multiple" id="marca">
+            <select class="form-control produto-categorias" name="marcas[]" multiple="multiple" id="marca" onchange="atributo()">
               <?php foreach($marcas as $marcas){ ?>
                 <option value="<?php echo $marcas['id']; ?>"><?php echo $marcas['nome']; ?></option>
               <?php } ?>
@@ -106,7 +106,7 @@
           <!-- `estoque` int(11) DEFAULT NULL-->
           <div class="form-group">
             <label>Publicar no Mercado Livre:</label>            
-              <select class="form-control custom-select" v-model="ml">
+              <select class="form-control custom-select" v-model="ml" onchange="sugestao()">
               <option :value=false selected>Não</option>
               <option :value=true>Sim</option>
             </select>            
@@ -117,15 +117,17 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label>Categoria:</label>
-                <select name="categoria_ml" class="form-control custom-select" v-model="categoria" required>
+                <select name="categoria_ml" class="form-control custom-select" v-model="categoria" required onchange="atributo()">
                     <option value="MLB1055">Celulares e Smartphones</option>
+                    <option value="MLB23332">Tênis</option>
+                    <option value="MLB3530">Outros</option>
                 </select> 
             </div>
         </div>
         
         <!-- Celulares e Smartphones-->
         
-        <div class="col-md-3" v-if="categoria=='MLB1055'">
+        <div class="col-md-3" v-if="categoria">
             <div class="form-group">
                 <label>Modelo:</label>
                 <input  onchange="atributo()" class="form-control" name="MODEL" required>            
@@ -153,60 +155,10 @@
                 </select> 
             </div>
         </div>
-        <div class="col-md-3" v-if="categoria=='MLB1055'">
+        <div class="col-md-3" v-if="categoria=='MLB1055' || categoria=='MLB23332'">
             <div class="form-group">
                 <label>Cor:</label>
-                 <select  onchange="atributo()" class="form-control custom-select" name="COLOR" required>
-                    <option value="Verde-escuro">Verde-escuro</option>
-                    <option value="Azul-turquesa">Azul-turquesa</option>
-                    <option value="Índigo">Índigo</option>
-                    <option value="Lavanda">Lavanda</option>
-                    <option value="Rosa-chiclete">Rosa-chiclete</option>
-                    <option value="Bordô">Bordô</option>
-                    <option value="Nude">Nude</option>
-                    <option value="Branco">Branco</option>
-                    <option value="Azul-marinho">Azul-marinho</option>
-                    <option value="Creme">Creme</option>
-                    <option value="Rosa-pálido">Rosa-pálido</option>
-                    <option value="Palha">Palha</option>
-                    <option value="Laranja-claro">Laranja-claro</option>
-                    <option value="Azul">Azul</option>
-                    <option value="Rosa-claro">Rosa-claro</option>
-                    <option value="Coral-claro">Coral-claro</option>
-                    <option value="Coral">Coral</option>
-                    <option value="Azul-celeste">Azul-celeste</option>
-                    <option value="Azul-aço">Azul-aço</option>
-                    <option value="Cáqui">Cáqui</option>
-                    <option value="Bege">Bege</option>
-                    <option value="Vermelho">Vermelho</option>
-                    <option value="Terracota">Terracota</option>
-                    <option value="Cinza">Cinza</option>
-                    <option value="Violeta">Violeta</option>
-                    <option value="Marrom-claro">Marrom-claro</option>
-                    <option value="Preto">Preto</option>
-                    <option value="Marrom-escuro">Marrom-escuro</option>
-                    <option value="Prateado">Prateado</option>
-                    <option value="Violeta-escuro">Violeta-escuro</option>
-                    <option value="Rosa">Rosa</option>
-                    <option value="Amarelo">Amarelo</option>
-                    <option value="Dourado-escuro">Dourado-escuro</option>
-                    <option value="Verde-claro">Verde-claro</option>
-                    <option value="Laranja-escuro">Laranja-escuro</option>
-                    <option value="Azul-petróleo">Azul-petróleo</option>
-                    <option value="Cinza-escuro">Cinza-escuro</option>
-                    <option value="Chocolate">Chocolate</option>
-                    <option value="Verde">Verde</option>
-                    <option value="Dourado">Dourado</option>
-                    <option value="Laranja">Laranja</option>
-                    <option value="Azul-escuro">Azul-escuro</option>
-                    <option value="Ocre">Ocre</option>
-                    <option value="Verde-musgo">Verde-musgo</option>
-                    <option value="Marrom">Marrom</option>
-                    <option value="Lilás">Lilás</option>
-                    <option value="Fúcsia">Fúcsia</option>
-                    <option value="Ciano">Ciano</option>
-                    <option value="Azul-claro">Azul-claro</option>
-                </select> 
+                <input  onchange="atributo()" class="form-control" name="COLOR" required>
             </div>
         </div>
         <div class="col-md-3" v-if="categoria=='MLB1055'">
@@ -247,6 +199,19 @@
             <div class="form-group">
                 <label>Código universal de produto (GTIN):</label>
                 <input onchange="atributo()" class="form-control" name="GTIN" required>            
+            </div>
+        </div>
+        <!-- Tênis -->
+         <div class="col-md-3" v-if="categoria=='MLB23332'">
+            <div class="form-group">
+                <label>Gênero:</label>
+                <input onchange="atributo()" class="form-control" name="GENDER" required>            
+            </div>
+        </div>
+         <div class="col-md-3" v-if="categoria=='MLB23332'">
+            <div class="form-group">
+                <label>Estilo:</label>
+                <input onchange="atributo()" class="form-control" name="STYLE" required>            
             </div>
         </div>
         <input name="atributos_ml" type="hidden">
@@ -415,8 +380,58 @@
                             '"value_name": "'+String(document.getElementsByName('GTIN')[0].value)+'"'+
                         '}'+
                 ']'
-               document.getElementsByName('atributos_ml')[0].value = att
+            break;
+            case 'MLB3530':
+               att = '"attributes": ['+
+                        '{'+
+                           '"id": "BRAND",'+
+                            '"value_name": "'+strUser+'"'+
+                        '},'+
+                        '{'+
+                           '"id": "MODEL",'+
+                            '"value_name": "'+String(document.getElementsByName('MODEL')[0].value)+'"'+
+                        '},'+
+                    ']'
+            break;
+            case 'MLB23332':
+               att = '"attributes": ['+
+                        '{'+
+                           '"id": "BRAND",'+
+                            '"value_name": "'+strUser+'"'+
+                        '},'+
+                        '{'+
+                           '"id": "MODEL",'+
+                            '"value_name": "'+String(document.getElementsByName('MODEL')[0].value)+'"'+
+                        '},'+
+                        ' {'+
+                            '"id": "COLOR",'+
+                           '"value_name": "'+String(document.getElementsByName('COLOR')[0].value)+'"'+
+                        '},'+
+                        ' {'+
+                            '"id": "GENDER",'+
+                           '"value_name": "'+String(document.getElementsByName('GENDER')[0].value)+'"'+
+                        '},'+
+                        ' {'+
+                            '"id": "STYLE",'+
+                           '"value_name": "'+String(document.getElementsByName('STYLE')[0].value)+'"'+
+                        '},'+
+                    ']'
             break;
         }
+          document.getElementsByName('atributos_ml')[0].value = att
     }
+function sugestao(){
+    let nome = document.getElementsByName('nome')[0].value
+    if(!vue.ml){
+        fetch('ecommerce/plugins/mercadolivre/mercadolivre/apis/sugestao.php?nome='+nome+'&token='+'<?php echo $ML['token'] ?>')
+        .then(a=>a.json())
+        .then(b=>{
+            fetch('ecommerce/plugins/mercadolivre/mercadolivre/apis/regras.php?cat='+b[0].category_id+'&token='+'<?php echo $ML['token'] ?>')
+            .then(c=>c.json())
+            .then(d=>{
+                console.log(d)
+            })
+        })  
+    }
+}
 </script>
