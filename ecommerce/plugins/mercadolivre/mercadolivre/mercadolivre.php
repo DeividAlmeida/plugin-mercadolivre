@@ -37,33 +37,7 @@ $produtos   = DBRead('ecommerce','*');
             <div class="card-footer white">
                 <button style="margin-bottom: 7px;" class="btn btn-primary float-right" type="submit"><i class="icon icon-save" aria-hidden="true"></i> Salvar</button>
             </div>
-        </form>
-        <br>
-        <hr>
-        <form action="?integrar" method="post">
-            <strong>Integrar anuncio já existente</strong>
-            <br>
-            <br>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                      <label>Produtos: </label>
-                      <select class="form-control produto-categorias" name="produto"  required>
-                        <?php foreach($produtos as $produto){ ?>
-                          <option value="<?php echo $produto['id']; ?>"><?php echo $produto['nome']; ?></option>
-                        <?php } ?>
-                      </select>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                      <label>Id do anúncio : </label>
-                      <input class="form-control" name="cod" required step="0" type="number" >
-                  </div>
-                    <button style="margin-bottom: 7px;" class="btn btn-primary float-right" type="submit"><i class="icon icon-refresh" aria-hidden="true"></i> Integrar</button>
-                </div>
-            </div>
-        </form>
+        </form>       
     </div>
 </div>
 <? if(isset($_GET['code'])){?>
@@ -124,5 +98,4 @@ fetch("https://api.mercadolibre.com/oauth/token", requestOptions)
     })
   .catch(error => console.log('error', error));
 </script>
-<? }
-
+<?php } ?>
